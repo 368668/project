@@ -11,7 +11,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[hash].js",
+    filename: "static/js/[name].[hash].js",
     // assetsSubDirectory: 'static', // 静态文件目录
     // publicPath: './static/'
   },
@@ -69,7 +69,13 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif)$/,
-        use: 'file-loader'
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name][hash].[ext]',
+            outputPath: "static/images"
+          }
+        }
       },
       {
         test: /\.html$/,
@@ -101,7 +107,9 @@ module.exports = {
       cache: true,
       parallel: true
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name][hash].css"
+    }),
     new OptimizeCssAssetsPlugin()
   ],
   devtool: "cheap-module-eval-source-map",
